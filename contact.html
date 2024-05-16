@@ -112,16 +112,37 @@
             })
             .then((response) => {
                 // Handle the response if needed
-                console.log('Form submitted successfully:', response);
-                // Redirect to a thank you page or display a success message
+                if (response.ok) {
+                    // Form submitted successfully
+                    console.log('Form submitted successfully:', response);
+                    showThankYouMessage();
+                } else {
+                    // Form submission failed
+                    console.error('Error submitting the form:', response);
+                    showFailedMessage();
+                }
             })
             .catch((error) => {
                 // Handle errors if any
                 console.error('Error submitting the form:', error);
                 // Display an error message to the user
+                showFailedMessage();
             });
     }
+
+    function showThankYouMessage() {
+        // Show thank you message to the user
+        alert('Thank you for contacting us! We will get back to you shortly.');
+        // You can also redirect the user to a thank you page if needed
+        // window.location.href = 'thank-you.html';
+    }
+
+    function showFailedMessage() {
+        // Show failed message to the user
+        alert('Oops! Something went wrong. Please try again later.');
+    }
 </script>
+
 
         </main>
         <!-- Footer-->
