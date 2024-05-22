@@ -12074,8 +12074,29 @@ html {
   font-weight: 700;
 }
 
+.badge {
+  white-space: unset;
+}
+
 @media (max-width: 992px) {
   .gap {
     column-gap: unset;
   }
+}
+
+@media (max-width: 768px) {
+  .things-done {
+    font-size: smaller;
+  }
+  .project-name {
+    font-size: large;
+  }
+
+  .card img {
+    max-height: 15rem;
+  }
+}
+
+a {
+  text-decoration: none;
 }
