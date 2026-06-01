@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hey Noor 💕</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 45%, #ffecd2 100%);
+      font-family: 'Quicksand', sans-serif;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ── Custom cursor ── */
+    #cursor {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: rgba(214, 51, 132, 0.55);
+      position: fixed;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+      transition: width .15s, height .15s;
+      mix-blend-mode: multiply;
+    }
+
+    /* ── Floating hearts BG ── */
+    #heartsBg {
+      position: fixed; inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .heart-particle {
+      position: absolute;
+      bottom: -60px;
+      opacity: .75;
+      animation: floatUp linear infinite;
+      user-select: none;
+    }
+
+    @keyframes floatUp {
+      0%   { transform: translateY(0)       rotate(0deg);   opacity: .75; }
+      100% { transform: translateY(-115vh)  rotate(360deg); opacity: 0;   }
+    }
+
+    /* ── Page layout ── */
+    .page {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    /* ── Card ── */
+    .card {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-radius: 32px;
+      padding: 3rem 2.5rem 2.5rem;
+      max-width: 560px;
+      width: 100%;
+      text-align: center;
+      box-shadow:
+        0 8px 32px rgba(214, 51, 132, 0.18),
+        0 2px 8px rgba(214, 51, 132, 0.08);
+      border: 2px solid rgba(255, 160, 180, 0.35);
+      animation: cardIn .9s cubic-bezier(.34,1.56,.64,1);
+    }
+
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(40px) scale(.95); }
+      to   { opacity: 1; transform: translateY(0)    scale(1);   }
+    }
+
+    /* ── Stars row ── */
+    .stars {
+      font-size: 1.1rem;
+      letter-spacing: .35rem;
+      color: #e91e8c;
+      margin-bottom: .5rem;
+      animation: twinkle 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes twinkle {
+      from { opacity: .45; }
+      to   { opacity: 1;   }
+    }
+
+    /* ── Heading ── */
+    h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(2.4rem, 7vw, 3.4rem);
+      color: #c2185b;
+      line-height: 1.1;
+      margin-bottom: .4rem;
+    }
+
+    .subtitle {
+      font-size: .9rem;
+      color: #a0527a;
+      font-weight: 500;
+      margin-bottom: 2rem;
+      opacity: .85;
+    }
+
+    /* ── Big heart button ── */
+    #mainHeart {
+      display: inline-block;
+      font-size: 5.5rem;
+      cursor: pointer;
+      user-select: none;
+      animation: heartbeat 1.6s ease-in-out infinite;
+      filter: drop-shadow(0 4px 18px rgba(214,51,132,.45));
+      transition: filter .2s;
+    }
+
+    #mainHeart:hover {
+      animation: none;
+      transform: scale(1.18);
+      filter: drop-shadow(0 8px 28px rgba(214,51,132,.65));
+    }
+
+    #mainHeart:active { transform: scale(.92); }
+
+    @keyframes heartbeat {
+      0%,100% { transform: scale(1);    }
+      14%     { transform: scale(1.18); }
+      28%     { transform: scale(1);    }
+      42%     { transform: scale(1.12); }
+      56%     { transform: scale(1);    }
+    }
+
+    .tap-hint {
+      font-size: .8rem;
+      color: #b06080;
+      margin-top: .4rem;
+      animation: nudge 2s ease-in-out infinite;
+    }
+
+    @keyframes nudge {
+      0%,100% { transform: translateY(0);   }
+      50%     { transform: translateY(-5px); }
+    }
+
+    #clickCounter {
+      min-height: 1.4rem;
+      font-size: .82rem;
+      color: #c2185b;
+      font-weight: 600;
+      margin-top: .25rem;
+      transition: opacity .3s;
+    }
+
+    /* ── Message section ── */
+    #messageSection {
+      display: none;
+      margin-top: 1.8rem;
+    }
+
+    #messageSection.show {
+      display: block;
+      animation: fadeUp .8s ease;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0);    }
+    }
+
+    .divider {
+      border: none;
+      border-top: 2px dashed #f8bbd0;
+      margin: 1.4rem 0;
+    }
+
+    #messageText {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.45rem;
+      color: #ad1457;
+      line-height: 1.85;
+      white-space: pre-wrap;
+      min-height: 4rem;
+    }
+
+    /* ── Reasons grid ── */
+    .reasons-title {
+      font-size: .82rem;
+      font-weight: 700;
+      color: #880e4f;
+      letter-spacing: .12rem;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .reasons-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .75rem;
+    }
+
+    .reason-card {
+      background: linear-gradient(135deg, #fff0f5, #ffe4ec);
+      border: 1px solid #f8bbd0;
+      border-radius: 16px;
+      padding: .85rem .7rem;
+      font-size: .82rem;
+      color: #880e4f;
+      font-weight: 600;
+      opacity: 0;
+      transform: scale(.75) translateY(10px);
+      transition: opacity .4s, transform .4s cubic-bezier(.34,1.56,.64,1);
+    }
+
+    .reason-card.pop {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+
+    .reason-card:hover {
+      transform: scale(1.06);
+      box-shadow: 0 6px 20px rgba(255,100,130,.2);
+      cursor: default;
+    }
+
+    .reason-emoji { font-size: 1.6rem; display: block; margin-bottom: .3rem; }
+
+    /* ── Arabic sign-off ── */
+    .signoff {
+      margin-top: 1.6rem;
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.9rem;
+      color: #d81b60;
+      animation: glow 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 6px rgba(216,27,96,.25); }
+      to   { text-shadow: 0 0 22px rgba(216,27,96,.7); }
+    }
+
+    /* ── Burst hearts ── */
+    .burst {
+      position: fixed;
+      pointer-events: none;
+      font-size: 1.6rem;
+      z-index: 9998;
+      animation: burstOut 1.3s ease-out forwards;
+    }
+
+    @keyframes burstOut {
+      0%   { opacity: 1; transform: translateY(0)    scale(1)   rotate(0deg);   }
+      100% { opacity: 0; transform: translateY(-120px) scale(.4) rotate(330deg); }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 480px) {
+      .card { padding: 2rem 1.4rem 2rem; }
+      #mainHeart { font-size: 4.2rem; }
+      .reasons-grid { grid-template-columns: 1fr; }
+      .signoff { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="cursor"></div>
+  <div id="heartsBg"></div>
+
+  <div class="page">
+    <div class="card">
+      <div class="stars">✦ ✦ ✦</div>
+      <h1>Hey Noor 🌸</h1>
+      <p class="subtitle">I made you something special...</p>
+
+      <div id="mainHeart">💗</div>
+      <p class="tap-hint">tap the heart ↑</p>
+      <p id="clickCounter"></p>
+
+      <div id="messageSection">
+        <hr class="divider">
+        <p id="messageText"></p>
+        <hr class="divider">
+        <p class="reasons-title">reasons I miss you</p>
+        <div class="reasons-grid" id="reasonsGrid"></div>
+        <p class="signoff">أنا بفتقدك يا نور 💞</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ────────────────────────── cursor ────────────────────────── */
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top  = e.clientY + 'px';
+    });
+
+    /* ──────────────────── floating background hearts ─────────── */
+    const bg = document.getElementById('heartsBg');
+    const pool = ['💕','💗','💖','💓','🌸','✨','💞','🌷','⭐','🌺'];
+
+    function spawnBg() {
+      const el = document.createElement('div');
+      el.className = 'heart-particle';
+      el.textContent = pool[Math.floor(Math.random() * pool.length)];
+      el.style.left     = Math.random() * 100 + '%';
+      el.style.fontSize = (Math.random() * 1.4 + .7) + 'rem';
+      const dur = Math.random() * 9 + 7;
+      el.style.animationDuration = dur + 's';
+      el.style.animationDelay   = Math.random() * 3 + 's';
+      bg.appendChild(el);
+      setTimeout(() => el.remove(), (dur + 4) * 1000);
+    }
+
+    for (let i = 0; i < 10; i++) spawnBg();
+    setInterval(spawnBg, 700);
+
+    /* ──────────────────── cursor heart trail ─────────────────── */
+    document.addEventListener('mousemove', e => {
+      if (Math.random() > .82) trailHeart(e.clientX, e.clientY);
+    });
+
+    function trailHeart(x, y) {
+      const el = document.createElement('div');
+      el.className = 'burst';
+      el.textContent = ['💕','✨','💗','🌸'][Math.floor(Math.random() * 4)];
+      el.style.left = x + 'px';
+      el.style.top  = y + 'px';
+      el.style.fontSize = '.9rem';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 1300);
+    }
+
+    /* ──────────────────── heart button logic ─────────────────── */
+    let clicks = 0, revealed = false;
+
+    const MESSAGE =
+      "There are so many miles between us right now,\n" +
+      "but every single moment — I think of you.\n\n" +
+      "You light up my whole world, Noor. 🌟\n" +
+      "Distance is just a reminder of how much\n" +
+      "I can't wait to be with you again. 💌";
+
+    const REASONS = [
+      { e: '😂', t: 'Your laugh'          },
+      { e: '🤗', t: 'Your hugs'           },
+      { e: '👀', t: 'Your eyes'           },
+      { e: '💬', t: 'Our conversations'   },
+      { e: '🌸', t: 'The way you smell'   },
+      { e: '🎵', t: 'Your voice'          },
+      { e: '☕', t: 'Mornings with you'   },
+      { e: '🌙', t: 'Your goodnight texts'},
+    ];
+
+    const TAPS = [
+      'sending you so much love 💌',
+      "you're literally my favorite 💕",
+      'come back soon 🌸',
+      'missing you more every tap 🥺',
+      'seriously though… miss you 💗',
+    ];
+
+    const heartEl   = document.getElementById('mainHeart');
+    const section   = document.getElementById('messageSection');
+    const msgEl     = document.getElementById('messageText');
+    const counter   = document.getElementById('clickCounter');
+    const grid      = document.getElementById('reasonsGrid');
+
+    function burst(originEl) {
+      const rect = originEl.getBoundingClientRect();
+      const cx = rect.left + rect.width  / 2;
+      const cy = rect.top  + rect.height / 2;
+      for (let i = 0; i < 14; i++) {
+        setTimeout(() => {
+          const el = document.createElement('div');
+          el.className  = 'burst';
+          el.textContent = pool[Math.floor(Math.random() * pool.length)];
+          el.style.left = (cx + (Math.random() - .5) * 120) + 'px';
+          el.style.top  = (cy + (Math.random() - .5) *  60) + 'px';
+          document.body.appendChild(el);
+          setTimeout(() => el.remove(), 1400);
+        }, i * 55);
+      }
+    }
+
+    function typewriter(text, el, cb) {
+      let i = 0;
+      el.textContent = '';
+      function tick() {
+        if (i < text.length) { el.textContent += text[i++]; setTimeout(tick, 32); }
+        else if (cb) cb();
+      }
+      tick();
+    }
+
+    function onHeartClick() {
+      clicks++;
+      burst(heartEl);
+
+      if (!revealed) {
+        revealed = true;
+        heartEl.textContent = '💖';
+        heartEl.style.animation = 'none';
+
+        section.classList.add('show');
+
+        typewriter(MESSAGE, msgEl, () => {
+          REASONS.forEach((r, idx) => {
+            const card = document.createElement('div');
+            card.className = 'reason-card';
+            card.innerHTML = `<span class="reason-emoji">${r.e}</span>${r.t}`;
+            grid.appendChild(card);
+            setTimeout(() => card.classList.add('pop'), idx * 160 + 150);
+          });
+        });
+
+      } else {
+        counter.textContent = TAPS[(clicks - 2) % TAPS.length];
+        heartEl.style.transform = 'scale(1.25)';
+        setTimeout(() => heartEl.style.transform = '', 220);
+      }
+    }
+
+    heartEl.addEventListener('click',      onHeartClick);
+    heartEl.addEventListener('touchstart', e => { e.preventDefault(); onHeartClick(); });
+  </script>
+</body>
+</html>
