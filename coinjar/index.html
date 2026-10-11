@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Coin Jar</title>
+  <meta name="description" content="Watch your pay fill a jar while you work, with lofi music and a cozy cat coworker." />
+  <link rel="icon" type="image/png" href="icons/icon-32.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="stars" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="brand"><span class="brand-coin">¢</span> Coin Jar</div>
+    <div class="top-total">Saved so far <strong id="savedTop">0.00</strong></div>
+  </header>
+
+  <main class="layout">
+    <!-- LEFT: the cozy desk -->
+    <section class="card desk-card">
+      <div id="welcome" class="welcome hidden">
+        👋 First, tell me what you earn in <button class="link" data-tab="settings">Settings</button>, then hit <b>Start working</b>.
+      </div>
+
+      <div class="scene" id="scene">
+        <div class="bubble" id="bubble">Ready when you are ✨</div>
+
+        <svg class="cat" id="cat" viewBox="0 0 300 230" aria-label="A cat working at a desk">
+          <!-- window -->
+          <g class="window">
+            <rect x="18" y="14" width="86" height="72" rx="6" fill="#1b2350" stroke="#3b4687" stroke-width="4"/>
+            <line x1="61" y1="14" x2="61" y2="86" stroke="#3b4687" stroke-width="3"/>
+            <line x1="18" y1="50" x2="104" y2="50" stroke="#3b4687" stroke-width="3"/>
+            <circle cx="86" cy="32" r="9" fill="#ffe9a8"/>
+            <circle cx="90" cy="29" r="8" fill="#1b2350"/>
+            <circle class="twinkle" cx="32" cy="28" r="1.6" fill="#fff"/>
+            <circle class="twinkle t2" cx="46" cy="64" r="1.3" fill="#fff"/>
+            <circle class="twinkle t3" cx="80" cy="70" r="1.5" fill="#fff"/>
+          </g>
+          <!-- monitor -->
+          <g class="monitor">
+            <rect x="196" y="74" width="88" height="62" rx="6" fill="#2a2f45" />
+            <rect x="202" y="80" width="76" height="50" rx="3" class="screen" />
+            <rect class="code c1" x="208" y="88" width="40" height="4" rx="2" />
+            <rect class="code c2" x="208" y="98" width="56" height="4" rx="2" />
+            <rect class="code c3" x="214" y="108" width="34" height="4" rx="2" />
+            <rect class="code c4" x="208" y="118" width="48" height="4" rx="2" />
+            <rect x="234" y="136" width="12" height="40" fill="#2a2f45"/>
+            <rect x="222" y="172" width="36" height="8" rx="3" fill="#2a2f45"/>
+          </g>
+          <!-- tail -->
+          <path class="tail" d="M168 175 C 200 175, 205 140, 190 128" stroke="var(--fur)" stroke-width="12" fill="none" stroke-linecap="round"/>
+          <!-- body -->
+          <ellipse cx="128" cy="168" rx="50" ry="40" fill="var(--fur)"/>
+          <ellipse cx="128" cy="176" rx="28" ry="24" fill="var(--belly)"/>
+          <!-- head -->
+          <g class="head">
+            <path d="M92 88 L 96 50 L 118 74 Z" fill="var(--fur)"/>
+            <path d="M164 88 L 160 50 L 138 74 Z" fill="var(--fur)"/>
+            <path d="M98 80 L 99 60 L 112 74 Z" fill="#f6a5b8"/>
+            <path d="M158 80 L 157 60 L 144 74 Z" fill="#f6a5b8"/>
+            <ellipse cx="128" cy="104" rx="44" ry="38" fill="var(--fur)"/>
+            <!-- eyes open -->
+            <g class="eyes-open">
+              <g class="eye"><ellipse cx="111" cy="102" rx="6" ry="8" fill="#2b2233"/><circle cx="113" cy="99" r="2.2" fill="#fff"/></g>
+              <g class="eye"><ellipse cx="145" cy="102" rx="6" ry="8" fill="#2b2233"/><circle cx="147" cy="99" r="2.2" fill="#fff"/></g>
+            </g>
+            <!-- eyes closed (sleeping) -->
+            <g class="eyes-closed">
+              <path d="M104 103 Q 111 109 118 103" stroke="#2b2233" stroke-width="3" fill="none" stroke-linecap="round"/>
+              <path d="M138 103 Q 145 109 152 103" stroke="#2b2233" stroke-width="3" fill="none" stroke-linecap="round"/>
+            </g>
+            <circle cx="100" cy="116" r="6" fill="#f6a5b8" opacity=".6"/>
+            <circle cx="156" cy="116" r="6" fill="#f6a5b8" opacity=".6"/>
+            <path d="M124 112 L 132 112 L 128 117 Z" fill="#e57d95"/>
+            <path d="M121 120 Q 124.5 124 128 120 Q 131.5 124 135 120" stroke="#2b2233" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <g stroke="#2b2233" stroke-width="1.4" opacity=".5" stroke-linecap="round">
+              <line x1="86" y1="112" x2="104" y2="114"/><line x1="86" y1="120" x2="104" y2="118"/>
+              <line x1="170" y1="112" x2="152" y2="114"/><line x1="170" y1="120" x2="152" y2="118"/>
+            </g>
+            <!-- headphones (shown while music plays) -->
+            <g class="headphones">
+              <path d="M86 100 C 86 52, 170 52, 170 100" stroke="#ff8fab" stroke-width="7" fill="none" stroke-linecap="round"/>
+              <rect x="78" y="92" width="16" height="26" rx="7" fill="#ff8fab"/>
+              <rect x="162" y="92" width="16" height="26" rx="7" fill="#ff8fab"/>
+            </g>
+          </g>
+          <!-- desk -->
+          <rect x="0" y="180" width="300" height="50" fill="#6b4a3a"/>
+          <rect x="0" y="180" width="300" height="7" fill="#83604c"/>
+          <!-- keyboard -->
+          <rect x="88" y="176" width="82" height="10" rx="3" fill="#d9dbe8"/>
+          <g fill="#b7bad0"><rect x="92" y="178" width="8" height="3" rx="1"/><rect x="103" y="178" width="8" height="3" rx="1"/><rect x="114" y="178" width="8" height="3" rx="1"/><rect x="125" y="178" width="8" height="3" rx="1"/><rect x="136" y="178" width="8" height="3" rx="1"/><rect x="147" y="178" width="8" height="3" rx="1"/><rect x="158" y="178" width="8" height="3" rx="1"/></g>
+          <!-- paws -->
+          <ellipse class="paw left" cx="110" cy="176" rx="11" ry="7" fill="var(--fur)"/>
+          <ellipse class="paw right" cx="148" cy="176" rx="11" ry="7" fill="var(--fur)"/>
+          <!-- mug -->
+          <g class="mug">
+            <path class="steam s1" d="M40 150 q -6 -8 0 -16 q 6 -8 0 -16" stroke="#fff" stroke-width="2.5" fill="none" opacity=".5" stroke-linecap="round"/>
+            <path class="steam s2" d="M52 150 q -6 -8 0 -16 q 6 -8 0 -16" stroke="#fff" stroke-width="2.5" fill="none" opacity=".5" stroke-linecap="round"/>
+            <rect x="32" y="154" width="28" height="28" rx="5" fill="#ffd36e"/>
+            <path d="M60 160 q 12 2 0 16" stroke="#ffd36e" stroke-width="5" fill="none"/>
+          </g>
+          <!-- plant -->
+          <g>
+            <path d="M268 178 q -14 -26 -2 -44 q 6 18 2 44 Z" fill="#5fbf8f"/>
+            <path d="M268 178 q 14 -22 2 -38 q -8 16 -2 38 Z" fill="#7fd6a8"/>
+            <rect x="258" y="166" width="20" height="16" rx="3" fill="#e9897a"/>
+          </g>
+          <!-- sleeping z's -->
+          <g class="zzz" fill="#cfd6ff" font-weight="900" font-family="Nunito, sans-serif">
+            <text class="z z1" x="170" y="68" font-size="14">z</text>
+            <text class="z z2" x="182" y="54" font-size="18">z</text>
+            <text class="z z3" x="196" y="38" font-size="22">Z</text>
+          </g>
+        </svg>
+
+        <div class="jar-wrap">
+          <canvas id="jar" width="240" height="300" aria-label="Coin jar" title="Tap to shake"></canvas>
+          <div class="jar-meta"><span id="coinCount">0</span> coins · each <span id="coinValue">–</span><span id="jarsFilled"></span></div>
+        </div>
+      </div>
+
+      <div class="counter">
+        <div class="counter-label">Earned this session</div>
+        <div class="counter-value"><span id="earnMain">0.00</span><span class="earn-extra" id="earnExtra">00</span></div>
+        <div class="counter-sub"><span id="elapsed">0:00:00</span> · <span id="ratePer">–</span></div>
+      </div>
+
+      <div class="focus-goal hidden" id="focusGoal">
+        <div class="fg-top"><span id="fgName"></span><span id="fgPct"></span></div>
+        <div class="bar"><div class="bar-fill" id="fgBar"></div></div>
+        <div class="fg-sub" id="fgSub"></div>
+      </div>
+
+      <div class="controls">
+        <button class="btn primary big" id="startBtn">▶ Start working</button>
+        <button class="btn" id="stopBtn" disabled>🏦 Finish &amp; bank it</button>
+      </div>
+
+      <div class="music">
+        <button class="btn small" id="musicBtn">🎧 Play lofi</button>
+        <label class="vol">🔉 <input type="range" id="volume" min="0" max="1" step="0.01" value="0.6" /></label>
+        <label class="chk"><input type="checkbox" id="rain" /> 🌧 Rain</label>
+        <label class="chk"><input type="checkbox" id="crackle" checked /> 💿 Vinyl</label>
+      </div>
+    </section>
+
+    <!-- RIGHT: tabs -->
+    <section class="card side-card">
+      <nav class="tabs" role="tablist">
+        <button class="tab active" data-tab="wishlist">🛍 Wishlist</button>
+        <button class="tab" data-tab="stats">📈 Stats</button>
+        <button class="tab" data-tab="settings">⚙️ Settings</button>
+      </nav>
+
+      <!-- Wishlist -->
+      <div class="panel" id="panel-wishlist">
+        <form id="productForm" class="product-form">
+          <input id="pEmoji" maxlength="4" placeholder="🎧" class="emoji-input" aria-label="Emoji" />
+          <input id="pName" required placeholder="What do you want to buy?" aria-label="Product name" />
+          <input id="pPrice" required type="number" min="0.01" step="0.01" placeholder="Price" aria-label="Price" />
+          <input id="pLink" type="url" placeholder="Link (optional)" aria-label="Link" class="wide" />
+          <button class="btn primary" type="submit">+ Add</button>
+        </form>
+        <ul class="products" id="products"></ul>
+        <p class="empty" id="productsEmpty">Add something you're working towards — new headphones, a trip, a gift. You'll see how many hours of work stand between you and it. ⭐ marks the goal shown under the jar.</p>
+        <details class="bought-wrap hidden" id="boughtWrap">
+          <summary>🎉 Unlocked (<span id="boughtCount">0</span>)</summary>
+          <ul class="products bought" id="bought"></ul>
+        </details>
+      </div>
+
+      <!-- Stats -->
+      <div class="panel hidden" id="panel-stats">
+        <div class="stat-grid">
+          <div class="stat"><div class="stat-v" id="sToday">0</div><div class="stat-l">Today</div></div>
+          <div class="stat"><div class="stat-v" id="sWeek">0</div><div class="stat-l">Last 7 days</div></div>
+          <div class="stat"><div class="stat-v" id="sAll">0</div><div class="stat-l">All time</div></div>
+          <div class="stat"><div class="stat-v" id="sHours">0h</div><div class="stat-l">Hours worked</div></div>
+          <div class="stat"><div class="stat-v" id="sStreak">0</div><div class="stat-l">Day streak 🔥</div></div>
+          <div class="stat"><div class="stat-v" id="sSpent">0</div><div class="stat-l">Spent on goals</div></div>
+        </div>
+        <h3 class="h3">Last 7 days</h3>
+        <div class="week-chart" id="weekChart"></div>
+        <h3 class="h3">Recent sessions</h3>
+        <ul class="history" id="history"></ul>
+      </div>
+
+      <!-- Settings -->
+      <div class="panel hidden" id="panel-settings">
+        <form id="settingsForm" class="settings">
+          <label>I'm paid
+            <select id="payType">
+              <option value="hourly">per hour</option>
+              <option value="daily">per day</option>
+              <option value="monthly">per month (salary)</option>
+              <option value="yearly">per year (salary)</option>
+            </select>
+          </label>
+          <label>Amount
+            <input id="amount" type="number" min="0" step="0.01" placeholder="e.g. 25" required />
+          </label>
+          <label>Currency
+            <select id="currency"></select>
+          </label>
+          <label class="salary-only">Hours I work per week
+            <input id="hoursPerWeek" type="number" min="1" max="120" step="0.5" value="40" />
+          </label>
+          <label class="daily-only">Hours in a work day
+            <input id="hoursPerDay" type="number" min="1" max="24" step="0.5" value="8" />
+          </label>
+          <div class="rate-preview" id="ratePreview"></div>
+
+          <label>Remind me to take a break every
+            <select id="breakEvery">
+              <option value="0">never</option>
+              <option value="25">25 min (pomodoro)</option>
+              <option value="50">50 min</option>
+              <option value="90">90 min</option>
+            </select>
+          </label>
+          <label>Cat colour
+            <select id="fur">
+              <option value="orange">Orange tabby</option>
+              <option value="gray">Gray</option>
+              <option value="black">Black</option>
+              <option value="white">White</option>
+              <option value="cream">Cream</option>
+            </select>
+          </label>
+          <label class="chk"><input type="checkbox" id="autoMusic" checked /> Play lofi automatically when I start working</label>
+          <label class="chk"><input type="checkbox" id="coinSound" checked /> Coin clink sounds</label>
+          <button class="btn primary" type="submit">Save</button>
+          <span class="saved-msg hidden" id="savedMsg">Saved ✓</span>
+        </form>
+
+        <div class="danger">
+          <button class="btn small" id="exportBtn">⬇ Export data</button>
+          <label class="btn small">⬆ Import<input type="file" id="importFile" accept="application/json" hidden /></label>
+          <button class="btn small ghost" id="resetBtn">Reset everything</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+  <canvas id="confetti" class="confetti"></canvas>
+
+  <script src="lofi.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
